@@ -48,8 +48,8 @@ class Player {
     } else {
       if (this.handRank(this.getCards(gameState)) === 1) {
         bet(0);
-      } else if (this.handRank(this.getCards(gameState)) < 4) {
-        if (holdingBet < (player.stack - player.bet) / 2 && this.isTrue(30)) {
+      } else if (this.handRank(this.getCards(gameState)) < 6) {
+        if (holdingBet < (player.stack - player.bet) / 4 && this.isTrue(30)) {
           bet(holdingBet);
         } else {
           bet(0);
