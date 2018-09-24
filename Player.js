@@ -54,15 +54,15 @@ class Player {
       }
     }
 
-    bet(holdingBet);
+    bet(this.betRaiseCount(gameState, this.handRank(this.getCards(gameState))));
   }
 
   static showdown(gameState) {
   }
 
-  static betRaiseCount(gameState, handRank) {
+  static betRaiseCount(gameState, rank) {
     let minToCheck = gameState.current_buy_in - gameState.players[gameState.in_action].bet;
-    let raiseAmount = gameState.minimum_raise * (1 + handRank / 10);
+    let raiseAmount = gameState.minimum_raise * (1 + rank / 10);
     let amount = Math.round(minToCheck + raiseAmount);
     return amount
   }
@@ -94,7 +94,8 @@ class Player {
 
   static getCards(gameState) {
     let cards = gameState.community_cards.concat(gameState.players[gameState.in_action].hole_cards);
-    return cards.map(card => this.getCardValue(card.rank));
+    cards.forEach(card => card.rank = this.getCardValue(card));
+    return cards;
   }
 
   static hasFlush(cards) {
