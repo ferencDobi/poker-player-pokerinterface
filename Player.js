@@ -41,7 +41,8 @@ class Player {
   }
 
   static getCards(gameState) {
-    return gameState.community_cards.concat(gameState.players[gameState.in_action].hole_cards);
+    let cards = gameState.community_cards.concat(gameState.players[gameState.in_action].hole_cards);
+    return cards.map(card => this.getCardValue(card.rank));
   }
 
   static isRoyalFlush(cards) {
