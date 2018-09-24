@@ -11,6 +11,10 @@ class Player {
     let holdingBet = gameState.current_buy_in - player.bet;
     let rank = this.handRank(this.getCards(gameState));
 
+    if (holdingBet < 1000) bet(1000);
+    else bet(0);
+
+    /*
     if (cards.length === 0) {
       if (this.notSameSuit(player.hole_cards) && this.cardsTooFar(player.hole_cards) ||
         this.notSameSuit(player.hole_cards) && this.bothCardTooSmall(player.hole_cards)) {
@@ -91,7 +95,7 @@ class Player {
     }
 
 
-    bet(this.betRaiseCount(gameState, rank));
+    bet(this.betRaiseCount(gameState, rank));*/
   }
 
   static showdown(gameState) {
