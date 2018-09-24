@@ -4,7 +4,6 @@ class Player {
   }
 
   static betRequest(gameState, bet) {
-    let bid = Math.random() * (gameState.players[gameState.in_action].stack / 10);
 
     let player = gameState.players[gameState.in_action];
     let cards = gameState.community_cards;
@@ -19,11 +18,17 @@ class Player {
         bet(0);
       }
     }
-
-    bet(Math.round(gameState.current_buy_in - gameState.players[gameState.in_action].bet + Math.max(bid, gameState.minimum_raise)));
+    let amountToBet = this.betCount(gameState);
+    bet(amountToBet);
   }
 
   static showdown(gameState) {
+  }
+
+  static betCount(gameState) {
+    let bid = Math.random() * (gameState.players[gameState.in_action].stack / 10);
+    let amount = Math.round(gameState.current_buy_in - gameState.players[gameState.in_action].bet + Math.max(bid, gameState.minimum_raise));
+    return amount
   }
 
   static getCardValue(card) {
