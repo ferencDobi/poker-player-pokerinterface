@@ -11,6 +11,14 @@ class Player {
 
   static showdown(gameState) {
   }
+
+  static getCards(gameState) {
+    return gameState.community_cards.concat(gameState.players[gameState.in_action].hole_cards);
+  }
+
+  static isRoyalFlush(gameState) {
+
+  }
 }
 
 module.exports = Player;
