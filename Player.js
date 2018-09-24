@@ -11,7 +11,8 @@ class Player {
     let holdingBet = gameState.current_buy_in - player.bet;
 
     if (cards.length === 0) {
-      if (this.cardsToFar(player.hole_cards) || this.bothCardTooSmall(player.hole_cards)) {
+      if (this.notSameSuit(player.hole_cards) && this.cardsToFar(player.hole_cards) ||
+        this.notSameSuit(player.hole_cards) && this.bothCardTooSmall(player.hole_cards)) {
         bet(0);
       } else {
         bet(holdingBet);
