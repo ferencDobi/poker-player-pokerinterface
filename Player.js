@@ -135,9 +135,9 @@ class Player {
 
   static countRanks(cards) {
     let rankCount = new Map([...Array(13).keys()].map(n => [n + 2, 0]));
-    let ranks = cards.filter(card => card.rank);
-    ranks.forEach(rank => rankCount.set(rank, rankCount.get(rank) + 1));
-    return rankCount.values().sort((a, b) => b - a);
+    let ranks = cards.map(card => card.rank);
+    ranks.forEach(rank => rankCount.set(+rank, rankCount.get(+rank) + 1));
+    return [...rankCount.values()].sort((a, b) => b - a);
   }
 
   static sortCards(cards) {

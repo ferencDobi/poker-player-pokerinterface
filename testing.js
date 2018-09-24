@@ -4,15 +4,15 @@ gameState = {  "community_cards": [                            // Finally the ar
       "suit": "hearts"
     },
     {
-      "rank": "13",
+      "rank": "9",
       "suit": "hearts"
     },
     {
-      "rank": "12",
+      "rank": "10",
       "suit": "hearts"
     },
     {
-      "rank": "11",
+      "rank": "10",
       "suit": "hearts"
     },
     {
@@ -72,12 +72,45 @@ function hasFlush(cards) {
   return result.hasStraight && result.sameSuit && (result.highestCard.rank === "14")
 }
 
+function hasFullHouse(cards) {
+  let counts = countRanks(cards);
+  return counts.contains(3) && counts.contains(2);
+}
+
+function hasTwoPairs(cards) {
+  return this.countRanks(cards).filter(count => count === 2).length >= 2;
+}
+
+function howManyOfAKind(cards) {
+  return this.countRanks(cards)[0];
+}
+
+function handRank(cards) {
+  if (this.hasRoyalFlush(cards)) return 10;
+  if (this.hasStraightFlush(cards)) return 9;
+  let sameRanks = this.howManyOfAKind(cards);
+  if (sameRanks === 4) return 8;
+  if (this.hasFullHouse(cards)) return 7;
+  if (this.hasFlush(cards)) return 6;
+  if (hasStraight(cards)) return 5;
+  if (sameRanks === 3) return 4;
+  if (this.hasTwoPairs(cards)) return 3;
+  if (sameRanks === 2) return 2;
+  return 1;
+}
+
+function countRanks(cards) {
+  let rankCount = new Map([...Array(13).keys()].map(n => [n + 2, 0]));
+  let ranks = cards.map(card => card.rank);
+  ranks.forEach(rank => rankCount.set(+rank, rankCount.get(+rank) + 1));
+  return [...rankCount.values()].sort((a, b) => b - a);
+}
 
 let cards = getCards(gameState);
 cards = sortCards(cards);
 let result = straight(cards);
 
 console.log(result);
-if (hasFlush(cards)) {
+if (hasFullHouse(cards)) {
   console.log("There is a straight in the cards")
 }
