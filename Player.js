@@ -19,10 +19,11 @@ class Player {
   static isRoyalFlush(gameState) {
 
   }
+  static checkThreeOfAKind(gameState) {
+    let cards = getCards(gameState);
+    return false
+
+  }
 }
 
 module.exports = Player;
-
-function checkFourOfAKind(gameState) {
-  let cards = 0;
-}
