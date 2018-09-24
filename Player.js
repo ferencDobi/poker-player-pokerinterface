@@ -9,7 +9,13 @@ class Player {
     let player = gameState.players[gameState.in_action];
     let cards = gameState.community_cards;
 
-    if (this.smallCards(player.hole_cards) && this.notSameSuit(player.hole_cards) && this.cardsToFar(player.hole_cards)) {
+    if (cards.length === 0) {
+      if (this.smallCards(player.hole_cards) && this.notSameSuit(player.hole_cards) && this.cardsToFar(player.hole_cards)) {
+        bet(0);
+      }
+    }
+
+    if (current_buy_in - players[in_action][bet] > 400) {
       bet(0);
     }
 
