@@ -39,6 +39,13 @@ class Player {
   static cardsToFar(cards) {
     return Math.abs(this.getCardValue(cards[0]) - this.getCardValue(cards[1])) > 3;
   }
+
+  static getCards(gameState) {
+    return gameState.community_cards.concat(gameState.players[gameState.in_action].hole_cards);
+  }
+
+  static isRoyalFlush(gameState) {
+  }
 }
 
 module.exports = Player;
