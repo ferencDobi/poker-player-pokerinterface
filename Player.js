@@ -59,11 +59,6 @@ class Player {
     return cards.map(card => this.getCardValue(card.rank));
   }
 
-  static hasRoyalFlush(cards) {
-    if (!this.hasFlush()) return false;
-    return false; // TODO
-  }
-
   static hasFlush(cards) {
     let suits = cards.filter(card => card.suit);
     let sameSuits = 1;
