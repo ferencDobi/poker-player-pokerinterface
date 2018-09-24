@@ -13,6 +13,8 @@ class Player {
     if (cards.length === 0) {
       if (this.smallCards(player.hole_cards) && this.notSameSuit(player.hole_cards) && this.cardsToFar(player.hole_cards) && this.bothCardTooSmall(player.hole_cards)) {
         bet(0);
+      } else {
+        bet(holdingBet);
       }
     } else if (cards.length === 3) {
       if (this.handRank(this.getCards(gameState)) === 1) {
