@@ -4,19 +4,29 @@ class Player {
   }
 
   static betRequest(gameState, bet) {
-    let bid = Math.random() * (gameState.players[gameState.in_action].stack / 10);
 
     let player = gameState.players[gameState.in_action];
     let cards = gameState.community_cards;
 
-    if (this.smallCards(player.hole_cards) && this.notSameSuit(player.hole_cards) && this.cardsToFar(player.hole_cards)) {
-      bet(0);
+    let holdingBet = gameState.current_buy_in - player.bet;
+
+    if (cards.length === 0) {
+      if (this.smallCards(player.hole_cards) && this.notSameSuit(player.hole_cards) && this.cardsToFar(player.hole_cards)) {
+        bet(0);
+      }
     }
 
-    bet(Math.round(gameState.current_buy_in - gameState.players[gameState.in_action].bet + Math.max(bid, gameState.minimum_raise)));
+    let amountToBet = this.betCount(gameState);
+    bet(amountToBet);
   }
 
   static showdown(gameState) {
+  }
+
+  static betCount(gameState) {
+    let bid = Math.random() * (gameState.players[gameState.in_action].stack / 10);
+    let amount = Math.round(gameState.current_buy_in - gameState.players[gameState.in_action].bet + Math.max(bid, gameState.minimum_raise));
+    return amount
   }
 
   static getCardValue(card) {
@@ -41,12 +51,15 @@ class Player {
   }
 
   static getCards(gameState) {
-    return gameState.community_cards.concat(gameState.players[gameState.in_action].hole_cards);
+    let cards = gameState.community_cards.concat(gameState.players[gameState.in_action].hole_cards);
+    return cards.map(card => this.getCardValue(card.rank));
   }
 
-  static isRoyalFlush(cards) {
-
+  static hasRoyalFlush(cards) {
+    if (!this.hasFlush()) return false;
+    return false; // TODO
   }
+
 
   static howManyOfAKind(cards) {
     let ranks = cards.filter(card => card.rank);
@@ -95,6 +108,11 @@ class Player {
   static hasStraight(cards) {
     let result = straight(cards);
     return result.hasStraight;
+  }
+
+  // Returning true if the random number is less then the @maxChance given as parameter.
+  static isTrue(maxChance) {
+    return Math.round(Math.random() * 100) < maxChance;
   }
 }
 
