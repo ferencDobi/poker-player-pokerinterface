@@ -41,9 +41,24 @@ class Player {
   }
 
   static getCards(gameState) {
-    return gameState.community_cards.concat(gameState.players[gameState.in_action].hole_cards);
+    let cards = gameState.community_cards.concat(gameState.players[gameState.in_action].hole_cards);
+    return cards.map(card => this.getCardValue(card.rank));
   }
-  
+
+  static hasRoyalFlush(cards) {
+    if (!this.hasFlush()) return false;
+    return false; // TODO
+  }
+
+  static hasFlush(cards) {
+    let suits = cards.filter(card => card.suit);
+    let sameSuits = 1;
+    suits.forEach(suit => {
+      sameSuits = Math.max(suits.filter(card => card === suit).length, sameSuits);
+    });
+    return sameSuits === 5;
+  }
+
   static howManyOfAKind(cards) {
     let ranks = cards.filter(card => card.rank);
     let sameRanks = 1;
