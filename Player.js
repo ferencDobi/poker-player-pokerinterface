@@ -43,11 +43,7 @@ class Player {
   static getCards(gameState) {
     return gameState.community_cards.concat(gameState.players[gameState.in_action].hole_cards);
   }
-
-  static isRoyalFlush(cards) {
-
-  }
-
+  
   static howManyOfAKind(cards) {
     let ranks = cards.filter(card => card.rank);
     let sameRanks = 1;
@@ -55,11 +51,6 @@ class Player {
       sameRanks = Math.max(ranks.filter(card => card === rank).length, sameRanks);
     });
     return sameRanks;
-  }
-  static checkThreeOfAKind(gameState) {
-    let cards = getCards(gameState);
-    return false
-
   }
 }
 
