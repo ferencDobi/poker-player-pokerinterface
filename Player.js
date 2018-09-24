@@ -45,8 +45,18 @@ class Player {
     return cards.map(card => this.getCardValue(card.rank));
   }
 
-  static isRoyalFlush(cards) {
+  static hasRoyalFlush(cards) {
+    if (!this.hasFlush()) return false;
+    return false; // TODO
+  }
 
+  static hasFlush(cards) {
+    let suits = cards.filter(card => card.suit);
+    let sameSuits = 1;
+    suits.forEach(suit => {
+      sameSuits = Math.max(suits.filter(card => card === suit).length, sameSuits);
+    });
+    return sameSuits === 5;
   }
 
   static howManyOfAKind(cards) {
