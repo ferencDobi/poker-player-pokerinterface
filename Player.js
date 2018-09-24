@@ -55,12 +55,6 @@ class Player {
     return cards.map(card => this.getCardValue(card.rank));
   }
 
-  static hasRoyalFlush(cards) {
-    if (!this.hasFlush()) return false;
-    return false; // TODO
-  }
-
-
   static howManyOfAKind(cards) {
     let ranks = cards.filter(card => card.rank);
     let sameRanks = 1;
@@ -68,11 +62,6 @@ class Player {
       sameRanks = Math.max(ranks.filter(card => card === rank).length, sameRanks);
     });
     return sameRanks;
-  }
-
-  static straightFlush(gameState) {
-    let cards = gameState.community_cards;
-    cards.add(gameState.players[gameState.in_action].hole_cards)
   }
 
   static sortCards(cards) {
@@ -98,18 +87,24 @@ class Player {
       }
       card = currentCard;
     });
+    straight.highestCard = card;
     return straight;
   }
 
-  static hasStraightFlush(cards) {
+  static hasRoyalFlush(cards) {
+    result = straight(cards);
+    return result.hasStraight && result.sameSuit && (result.highestCard.rank === "14")
+  }
 
+  static hasStraightFlush(cards) {
+    let result = straight(cards);
+    return result.hasStraight && result.sameSuit;
   }
 
   static hasStraight(cards) {
     let result = straight(cards);
     return result.hasStraight;
   }
-
   // Returning true if the random number is less then the @maxChance given as parameter.
   static isTrue(maxChance) {
     return Math.round(Math.random() * 100) < maxChance;
