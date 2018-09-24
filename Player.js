@@ -4,11 +4,20 @@ class Player {
   }
 
   static betRequest(gameState, bet) {
-    let bid = Math.random() * (gameState.players[in_action].stack / 4);
-    bet(gameState.current_buy_in - gameState.players[in_action].bet + Math.max(bid, gameState.minimum_raise));
+    let bid = Math.random() * (gameState.players[gameState.in_action].stack / 10);
+
+    bet(Math.round(gameState.current_buy_in - gameState.players[gameState.in_action].bet + Math.max(bid, gameState.minimum_raise)));
   }
 
   static showdown(gameState) {
+  }
+
+  static getCards(gameState) {
+    return gameState.community_cards.concat(gameState.players[gameState.in_action].hole_cards);
+  }
+
+  static isRoyalFlush(gameState) {
+
   }
 }
 
