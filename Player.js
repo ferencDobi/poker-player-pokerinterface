@@ -16,7 +16,7 @@ class Player {
       }
     }
 
-    bet(holdingBet);
+    bet(this.betRaiseCount(gameState, this.handRank(this.getCards(gameState))));
   }
 
   static showdown(gameState) {
