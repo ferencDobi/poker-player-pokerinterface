@@ -61,6 +61,41 @@ class Player {
     let cards = gameState.community_cards;
     cards.add(gameState.players[gameState.in_action].hole_cards)
   }
+
+  static sortCards(cards) {
+    return cardsArray = cards.sort(function (first, second) {
+      return first.rank - second.rank;
+    });
+  }
+
+  static straight(cards) {
+    let straight = {
+      hasStraight: true,
+      sameSuit: true
+    };
+    cards = sortCards(cards);
+    let card = cards[0];
+    cards.forEach(currentCard => {
+      if (currentCard !== card) {
+        if (parseInt(card.rank) + 1 !== parseInt(currentCard.rank)) {
+          straight.hasStraight = false;
+        } else if (card.suit !== currentCard.suit) {
+          straight.sameSuit = false;
+        }
+      }
+      card = currentCard;
+    });
+    return straight;
+  }
+
+  static hasStraightFlush(cards) {
+
+  }
+
+  static hasStraight(cards) {
+    let result = straight(cards);
+    return result.hasStraight;
+  }
 }
 
 module.exports = Player;
