@@ -15,7 +15,7 @@ class Player {
       }
     }
 
-    if (current_buy_in - players[in_action][bet] > 400) {
+    if (gameState.current_buy_in - gameState.players[gameState.in_action].bet > 400) {
       bet(0);
     }
 
@@ -72,6 +72,11 @@ class Player {
       sameRanks = Math.max(ranks.filter(card => card === rank).length, sameRanks);
     });
     return sameRanks;
+  }
+
+  // Returning true or false if the random number is less then the @maxChance given as parameter.
+  static getChance(maxChance) {
+    return Math.round(Math.random() * 100);
   }
 }
 
