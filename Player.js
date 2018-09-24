@@ -6,6 +6,7 @@ class Player {
   static betRequest(gameState, bet) {
 
     let player = gameState.players[gameState.in_action];
+    let startingHandRank = this.playerHoleRank(player);
     let cards = gameState.community_cards;
     let holdingBet = gameState.current_buy_in - player.bet;
     let rank = this.handRank(this.getCards(gameState));
@@ -15,7 +16,7 @@ class Player {
         this.notSameSuit(player.hole_cards) && this.bothCardTooSmall(player.hole_cards)) {
         bet(0);
       } else {
-        if (holdingBet < (player.stack - player.bet) / 8) {
+        if (holdingBet < (player.stack - player.bet) / 8 || startingHandRank > 24) {
           bet(holdingBet);
         } else {
           bet(0);
@@ -217,6 +218,13 @@ class Player {
   // Returning true if the random number is less then the @maxChance given as parameter.
   static isTrue(maxChance) {
     return Math.round(Math.random() * 100) < maxChance;
+  }
+
+  static playerHoleRank(player) {
+    let rank = 0;
+    player.hole_cards.forEach(card =>
+      rank += this.getCardValue(card));
+    return rank;
   }
 }
 
