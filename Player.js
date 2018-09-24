@@ -17,16 +17,17 @@ class Player {
     if (gameState.current_buy_in - gameState.players[gameState.in_action].bet > 400) {
       bet(0);
     }
-    let amountToBet = this.betCount(gameState);
-    bet(amountToBet);
+
+    bet(this.betRaiseCount(gameState, this.handRank(this.getCards(gameState))));
   }
 
   static showdown(gameState) {
   }
 
-  static betCount(gameState) {
-    let bid = Math.random() * (gameState.players[gameState.in_action].stack / 10);
-    let amount = Math.round(gameState.current_buy_in - gameState.players[gameState.in_action].bet + Math.max(bid, gameState.minimum_raise));
+  static betRaiseCount(gameState, handRank) {
+    let minToCheck = gameState.current_buy_in - gameState.players[gameState.in_action].bet;
+    let raiseAmount = gameState.minimum_raise * (1 + handRank / 10);
+    let amount = Math.round(minToCheck + raiseAmount);
     return amount
   }
 
