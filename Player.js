@@ -4,7 +4,8 @@ class Player {
   }
 
   static betRequest(gameState, bet) {
-    bet(0);
+    let bid = Math.random() * (gameState.players[in_action].stack / 4);
+    bet(gameState.current_buy_in - gameState.players[in_action].bet + Math.max(bid, gameState.minimum_raise));
   }
 
   static showdown(gameState) {
