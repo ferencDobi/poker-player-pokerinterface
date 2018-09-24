@@ -14,10 +14,8 @@ class Player {
       if (this.smallCards(player.hole_cards) && this.notSameSuit(player.hole_cards) && this.cardsToFar(player.hole_cards)) {
         bet(0);
       }
-      if (holdingBet > 400) {
-        bet(0);
-      }
     }
+
     let amountToBet = this.betCount(gameState);
     bet(amountToBet);
   }
