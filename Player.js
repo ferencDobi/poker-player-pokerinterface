@@ -14,18 +14,18 @@ class Player {
       if (this.notSameSuit(player.hole_cards) && this.cardsToFar(player.hole_cards) ||
         this.notSameSuit(player.hole_cards) && this.bothCardTooSmall(player.hole_cards)) {
         bet(0);
-      } else {
+      } else if (holdingBet < (player.stack - player.bet) / 12) {
         bet(holdingBet);
       }
     } else if (cards.length === 3) {
       if (this.handRank(this.getCards(gameState)) === 1) {
         if (this.isTrue(70)) {
           bet(0);
-        } else {
+        } else if (holdingBet < (player.stack - player.bet) / 6) {
           bet(holdingBet);
         }
       } else if (this.handRank(this.getCards(gameState)) < 4) {
-        if (holdingBet < (player.stack - player.bet) / 4) {
+        if (holdingBet < (player.stack - player.bet) / 6) {
           bet(holdingBet);
         } else {
           bet(0);
