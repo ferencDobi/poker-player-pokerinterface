@@ -31,6 +31,8 @@ class Player {
           }
         } else if (holdingBet < (player.stack - player.bet) / 8) {
           bet(holdingBet);
+        } else {
+          bet(0);
         }
       } else if (rank < 4) {
         if (holdingBet < (player.stack - player.bet) / 6) {
