@@ -9,14 +9,15 @@ class Player {
     let player = gameState.players[gameState.in_action];
     let cards = gameState.community_cards;
 
+    let holdingBet = gameState.current_buy_in - player.bet;
+
     if (cards.length === 0) {
       if (this.smallCards(player.hole_cards) && this.notSameSuit(player.hole_cards) && this.cardsToFar(player.hole_cards)) {
         bet(0);
       }
-    }
-
-    if (gameState.current_buy_in - gameState.players[gameState.in_action].bet > 400) {
-      bet(0);
+      if (holdingBet > 400) {
+        bet(0);
+      }
     }
 
     bet(Math.round(gameState.current_buy_in - gameState.players[gameState.in_action].bet + Math.max(bid, gameState.minimum_raise)));
@@ -74,9 +75,9 @@ class Player {
     return sameRanks;
   }
 
-  // Returning true or false if the random number is less then the @maxChance given as parameter.
-  static getChance(maxChance) {
-    return Math.round(Math.random() * 100);
+  // Returning true if the random number is less then the @maxChance given as parameter.
+  static isTrue(maxChance) {
+    return Math.round(Math.random() * 100) < maxChance;
   }
 }
 
