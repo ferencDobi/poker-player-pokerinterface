@@ -54,10 +54,6 @@ class Player {
       }
     }
 
-    if (gameState.current_buy_in - gameState.players[gameState.in_action].bet > 400) {
-      bet(0);
-    }
-
     bet(this.betRaiseCount(gameState, this.handRank(this.getCards(gameState))));
   }
 
