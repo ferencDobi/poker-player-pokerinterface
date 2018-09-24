@@ -7,8 +7,8 @@ class Player {
 
     let player = gameState.players[gameState.in_action];
     let cards = gameState.community_cards;
-
     let holdingBet = gameState.current_buy_in - player.bet;
+    let rank = this.handRank(this.getCards(gameState));
 
     if (cards.length === 0) {
       if (this.notSameSuit(player.hole_cards) && this.cardsToFar(player.hole_cards) ||
@@ -18,13 +18,15 @@ class Player {
         bet(holdingBet);
       }
     } else if (cards.length === 3) {
-      if (this.handRank(this.getCards(gameState)) === 1) {
-        if (this.isTrue(70)) {
+      if (rank === 1) {
+        if (player.current_buy_in > 30) {
+          bet(0)
+        } else if (this.isTrue(70)) {
           bet(0);
         } else {
           bet(holdingBet);
         }
-      } else if (this.handRank(this.getCards(gameState)) < 4) {
+      } else if (rank < 4) {
         if (holdingBet < (player.stack - player.bet) / 4) {
           bet(holdingBet);
         } else {
@@ -32,13 +34,13 @@ class Player {
         }
       }
     } else if (cards.length === 4) {
-      if (this.handRank(this.getCards(gameState)) === 1) {
+      if (rank === 1) {
         if (this.isTrue(90)) {
           bet(0);
         } else {
           bet(holdingBet);
         }
-      } else if (this.handRank(this.getCards(gameState)) < 4) {
+      } else if (rank < 4) {
         if (holdingBet < (player.stack - player.bet) / 5) {
           bet(holdingBet);
         } else {
@@ -46,9 +48,9 @@ class Player {
         }
       }
     } else {
-      if (this.handRank(this.getCards(gameState)) === 1) {
+      if (rank === 1) {
         bet(0);
-      } else if (this.handRank(this.getCards(gameState)) < 4) {
+      } else if (rank < 4) {
         if (holdingBet < (player.stack - player.bet) / 2 && this.isTrue(30)) {
           bet(holdingBet);
         } else {
@@ -57,8 +59,7 @@ class Player {
       }
     }
 
-    bet(this.betRaiseCount(gameState, this.handRank(this.getCards(gameState))));
-    bet(10);
+    bet(this.betRaiseCount(gameState, rank));
   }
 
   static showdown(gameState) {
