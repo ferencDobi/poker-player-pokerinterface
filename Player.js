@@ -10,6 +10,11 @@ class Player {
 
   static showdown(gameState) {
   }
+
+  static straightFlush(gameState) {
+    let cards = gameState.community_cards;
+    cards.add(gameState.players[gameState.in_action].hole_cards)
+  }
 }
 
 module.exports = Player;
