@@ -13,3 +13,7 @@ class Player {
 }
 
 module.exports = Player;
+
+function checkFourOfAKind(gameState) {
+  let cards = 0;
+}
