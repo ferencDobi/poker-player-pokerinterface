@@ -14,6 +14,44 @@ class Player {
       if (this.smallCards(player.hole_cards) && this.notSameSuit(player.hole_cards) && this.cardsToFar(player.hole_cards)) {
         bet(0);
       }
+    } else if (cards.length === 3) {
+      if (this.handRank(this.getCards(gameState)) === 1) {
+        if (this.isTrue(70)) {
+          bet(0);
+        } else {
+          bet(holdingBet);
+        }
+      } else if (this.handRank(this.getCards(gameState)) < 4) {
+        if (holdingBet < (player.stack - player.bet) / 4) {
+          bet(holdingBet);
+        } else {
+          bet(0);
+        }
+      }
+    } else if (cards.length === 4) {
+      if (this.handRank(this.getCards(gameState)) === 1) {
+        if (this.isTrue(90)) {
+          bet(0);
+        } else {
+          bet(holdingBet);
+        }
+      } else if (this.handRank(this.getCards(gameState)) < 4) {
+        if (holdingBet < (player.stack - player.bet) / 5) {
+          bet(holdingBet);
+        } else {
+          bet(0);
+        }
+      }
+    } else {
+      if (this.handRank(this.getCards(gameState)) === 1) {
+        bet(0);
+      } else if (this.handRank(this.getCards(gameState)) < 4) {
+        if (holdingBet < (player.stack - player.bet) / 2 && this.isTrue(30)) {
+          bet(holdingBet);
+        } else {
+          bet(0);
+        }
+      }
     }
 
     if (gameState.current_buy_in - gameState.players[gameState.in_action].bet > 400) {
