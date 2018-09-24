@@ -44,7 +44,17 @@ class Player {
     return gameState.community_cards.concat(gameState.players[gameState.in_action].hole_cards);
   }
 
-  static isRoyalFlush(gameState) {
+  static isRoyalFlush(cards) {
+
+  }
+
+  static howManyOfAKind(cards) {
+    let ranks = cards.filter(card => card.rank);
+    let sameRanks = 1;
+    ranks.forEach(rank => {
+      sameRanks = Math.max(ranks.filter(card => card === rank).length, sameRanks);
+    });
+    return sameRanks;
   }
 }
 
