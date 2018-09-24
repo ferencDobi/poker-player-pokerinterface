@@ -14,13 +14,21 @@ class Player {
       if (this.notSameSuit(player.hole_cards) && this.cardsTooFar(player.hole_cards) ||
         this.notSameSuit(player.hole_cards) && this.bothCardTooSmall(player.hole_cards)) {
         bet(0);
-      } else if (holdingBet < (player.stack - player.bet) / 12) {
-        bet(holdingBet);
+      } else {
+        if (holdingBet < (player.stack - player.bet) / 8) {
+          bet(holdingBet);
+        } else {
+          bet(0);
+        }
       }
     } else if (cards.length === 3) {
       if (rank === 1) {
         if (this.isTrue(70)) {
-          bet(0);
+          if (holdingBet < (player.stack - player.bet) / 10) {
+            bet(holdingBet);
+          } else {
+            bet(0);
+          }
         } else if (holdingBet < (player.stack - player.bet) / 6) {
           bet(holdingBet);
         }
@@ -40,7 +48,11 @@ class Player {
     } else if (cards.length === 4) {
       if (rank === 1) {
         if (this.isTrue(90)) {
-          bet(0);
+          if (holdingBet < (player.stack - player.bet) / 12) {
+            bet(holdingBet);
+          } else {
+            bet(0);
+          }
         } else {
           bet(holdingBet);
         }
