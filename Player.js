@@ -11,7 +11,7 @@ class Player {
     let holdingBet = gameState.current_buy_in - player.bet;
 
     if (cards.length === 0) {
-      if (this.smallCards(player.hole_cards) && this.notSameSuit(player.hole_cards) && this.cardsToFar(player.hole_cards)) {
+      if (this.smallCards(player.hole_cards) && this.notSameSuit(player.hole_cards) && this.cardsToFar(player.hole_cards) && this.bothCardTooSmall(player.hole_cards)) {
         bet(0);
       }
     } else if (cards.length === 3) {
@@ -86,6 +86,10 @@ class Player {
 
   static cardsToFar(cards) {
     return Math.abs(this.getCardValue(cards[0]) - this.getCardValue(cards[1])) > 3;
+  }
+
+  static bothCardTooSmall(cards) {
+    return this.getCardValue(cards[0]) < 8 && this.getCardValue(cards[1]) < 8;
   }
 
   static getCards(gameState) {
