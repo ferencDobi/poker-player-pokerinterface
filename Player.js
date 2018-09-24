@@ -17,7 +17,7 @@ class Player {
         this.notSameSuit(player.hole_cards) && this.bothCardTooSmall(player.hole_cards)) {
         bet(0);
       } else {
-        if (holdingBet < (player.stack - player.bet) / 8 || startingHandRank > 24) {
+        if (holdingBet < (player.stack - player.bet) / 8 || startingHandRank > 26) {
           bet(holdingBet);
         } else {
           bet(0);
