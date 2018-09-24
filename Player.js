@@ -11,7 +11,7 @@ class Player {
     let rank = this.handRank(this.getCards(gameState));
 
     if (cards.length === 0) {
-      if (this.notSameSuit(player.hole_cards) && this.cardsToFar(player.hole_cards) ||
+      if (this.notSameSuit(player.hole_cards) && this.cardsTooFar(player.hole_cards) ||
         this.notSameSuit(player.hole_cards) && this.bothCardTooSmall(player.hole_cards)) {
         bet(0);
       } else if (holdingBet < (player.stack - player.bet) / 12) {
@@ -19,17 +19,19 @@ class Player {
       }
     } else if (cards.length === 3) {
       if (rank === 1) {
-        if (player.current_buy_in > 30) {
-          bet(0)
-        } else if (this.isTrue(70)) {
+        if (this.isTrue(70)) {
           bet(0);
         } else if (holdingBet < (player.stack - player.bet) / 6) {
           bet(holdingBet);
         }
       } else if (rank < 4) {
-        if (holdingBet < (player.stack - player.bet) / 4) {
-      } else if (this.handRank(this.getCards(gameState)) < 4) {
         if (holdingBet < (player.stack - player.bet) / 6) {
+          bet(holdingBet);
+        } else {
+          bet(0);
+        }
+      } else if (rank < 6) {
+        if (holdingBet < (player.stack - player.bet) / 3) {
           bet(holdingBet);
         } else {
           bet(0);
@@ -48,18 +50,31 @@ class Player {
         } else {
           bet(0);
         }
+      } else if (rank < 6) {
+        if (holdingBet < (player.stack - player.bet) / 4) {
+          bet(holdingBet);
+        } else {
+          bet(0);
+        }
       }
     } else {
       if (rank === 1) {
         bet(0);
       } else if (rank < 4) {
-        if (holdingBet < (player.stack - player.bet) / 2 && this.isTrue(30)) {
+        if (holdingBet < (player.stack - player.bet) / 2 && this.isTrue(40)) {
+          bet(holdingBet);
+        } else {
+          bet(0);
+        }
+      } else if (rank < 6) {
+        if (holdingBet < (player.stack - player.bet) / 1.5 && this.isTrue(60)) {
           bet(holdingBet);
         } else {
           bet(0);
         }
       }
     }
+
 
     bet(this.betRaiseCount(gameState, rank));
   }
@@ -91,7 +106,7 @@ class Player {
     return cards[0].suit !== cards[1].suit;
   }
 
-  static cardsToFar(cards) {
+  static cardsTooFar(cards) {
     return Math.abs(this.getCardValue(cards[0]) - this.getCardValue(cards[1])) > 3;
   }
 
