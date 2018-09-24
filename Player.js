@@ -8,6 +8,8 @@ class Player {
     let player = gameState.players[gameState.in_action];
     let cards = gameState.community_cards;
 
+    let holdingBet = gameState.current_buy_in - player.bet;
+
     if (cards.length === 0) {
       if (this.smallCards(player.hole_cards) && this.notSameSuit(player.hole_cards) && this.cardsToFar(player.hole_cards)) {
         bet(0);
@@ -80,9 +82,50 @@ class Player {
     return sameRanks;
   }
 
-  // Returning true or false if the random number is less then the @maxChance given as parameter.
-  static getChance(maxChance) {
-    return Math.round(Math.random() * 100);
+  static sortCards(cards) {
+    return cardsArray = cards.sort(function (first, second) {
+      return first.rank - second.rank;
+    });
+  }
+
+  static straight(cards) {
+    let straight = {
+      hasStraight: true,
+      sameSuit: true
+    };
+    cards = sortCards(cards);
+    let card = cards[0];
+    cards.forEach(currentCard => {
+      if (currentCard !== card) {
+        if (parseInt(card.rank) + 1 !== parseInt(currentCard.rank)) {
+          straight.hasStraight = false;
+        } else if (card.suit !== currentCard.suit) {
+          straight.sameSuit = false;
+        }
+      }
+      card = currentCard;
+    });
+    straight.highestCard = card;
+    return straight;
+  }
+
+  static hasRoyalFlush(cards) {
+    result = straight(cards);
+    return result.hasStraight && result.sameSuit && (result.highestCard.rank === "14")
+  }
+
+  static hasStraightFlush(cards) {
+    let result = straight(cards);
+    return result.hasStraight && result.sameSuit;
+  }
+
+  static hasStraight(cards) {
+    let result = straight(cards);
+    return result.hasStraight;
+  }
+  // Returning true if the random number is less then the @maxChance given as parameter.
+  static isTrue(maxChance) {
+    return Math.round(Math.random() * 100) < maxChance;
   }
 }
 
