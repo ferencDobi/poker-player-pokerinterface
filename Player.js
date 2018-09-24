@@ -55,19 +55,51 @@ class Player {
     return cards.map(card => this.getCardValue(card.rank));
   }
 
-  static howManyOfAKind(cards) {
-    let ranks = cards.filter(card => card.rank);
-    let sameRanks = 1;
-    ranks.forEach(rank => {
-      sameRanks = Math.max(ranks.filter(card => card === rank).length, sameRanks);
+  static hasFlush(cards) {
+    let suits = cards.filter(card => card.suit);
+    let sameSuits = 1;
+    suits.forEach(suit => {
+      sameSuits = Math.max(suits.filter(card => card === suit).length, sameSuits);
     });
-    return sameRanks;
+    return sameSuits === 5;
+  }
+
+  static hasFullHouse(cards) {
+    let counts = this.countRanks(cards);
+    return counts.contains(3) && counts.contains(2);
+  }
+
+  static hasTwoPairs(cards) {
+    return this.countRanks(cards).filter(count => count === 2).length >= 2;
+  }
+
+  static howManyOfAKind(cards) {
+    return this.countRanks(cards)[0];
+  }
+
+  static handRank(cards) {
+    if (this.hasRoyalFlush(cards)) return 10;
+    if (this.hasStraightFlush(cards)) return 9;
+    let sameRanks = this.howManyOfAKind(cards);
+    if (sameRanks === 4) return 8;
+    if (this.hasFullHouse(cards)) return 7;
+    if (this.hasFlush(cards)) return 6;
+    if (this.hasStraight(cards)) return 5;
+    if (sameRanks === 3) return 4;
+    if (this.hasTwoPairs(cards)) return 3;
+    if (sameRanks === 2) return 2;
+    return 1;
+  }
+
+  static countRanks(cards) {
+    let rankCount = new Map([...Array(13).keys()].map(n => [n + 2, 0]));
+    let ranks = cards.filter(card => card.rank);
+    ranks.forEach(rank => rankCount.set(rank, rankCount.get(rank) + 1));
+    return rankCount.values().sort((a, b) => b - a);
   }
 
   static sortCards(cards) {
-    return cardsArray = cards.sort(function (first, second) {
-      return first.rank - second.rank;
-    });
+    return cards.sort((first, second) => first.rank - second.rank);
   }
 
   static straight(cards) {
@@ -75,7 +107,7 @@ class Player {
       hasStraight: true,
       sameSuit: true
     };
-    cards = sortCards(cards);
+    cards = this.sortCards(cards);
     let card = cards[0];
     cards.forEach(currentCard => {
       if (currentCard !== card) {
@@ -92,17 +124,17 @@ class Player {
   }
 
   static hasRoyalFlush(cards) {
-    result = straight(cards);
+    let result = this.straight(cards);
     return result.hasStraight && result.sameSuit && (result.highestCard.rank === "14")
   }
 
   static hasStraightFlush(cards) {
-    let result = straight(cards);
+    let result = this.straight(cards);
     return result.hasStraight && result.sameSuit;
   }
 
   static hasStraight(cards) {
-    let result = straight(cards);
+    let result = this.straight(cards);
     return result.hasStraight;
   }
   // Returning true if the random number is less then the @maxChance given as parameter.
