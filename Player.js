@@ -108,7 +108,7 @@ class Player {
 
   static hasFullHouse(cards) {
     let counts = this.countRanks(cards);
-    return counts.contains(3) && counts.contains(2);
+    return counts.includes(3) && counts.includes(2);
   }
 
   static hasTwoPairs(cards) {

@@ -74,7 +74,7 @@ function hasFlush(cards) {
 
 function hasFullHouse(cards) {
   let counts = countRanks(cards);
-  return counts.contains(3) && counts.contains(2);
+  return counts.includes(3) && counts.includes(2);
 }
 
 function hasTwoPairs(cards) {
