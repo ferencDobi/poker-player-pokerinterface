@@ -55,7 +55,8 @@ class Player {
 
   static getCards(gameState) {
     let cards = gameState.community_cards.concat(gameState.players[gameState.in_action].hole_cards);
-    return cards.map(card => this.getCardValue(card.rank));
+    cards.forEach(card => card.rank = this.getCardValue(card));
+    return cards;
   }
 
   static hasFlush(cards) {

@@ -1,13 +1,5 @@
 gameState = {  "community_cards": [                            // Finally the array of community cards.
     {
-      "rank": "9",
-      "suit": "hearts"
-    },
-    {
-      "rank": "9",
-      "suit": "hearts"
-    },
-    {
       "rank": "10",
       "suit": "hearts"
     },
@@ -20,12 +12,40 @@ gameState = {  "community_cards": [                            // Finally the ar
       "suit": "hearts"
     },
     {
-      "rank": "14",
+      "rank": "3",
       "suit": "hearts"
-    }
-  ]
+    },
+  ],
+  "in_action": 0,
+  "players": [{
+    "hole_cards": [
+      {
+        "rank": "10",
+        "suit": "hearts"
+      },
+      {
+        "rank": "A",
+        "suit": "hearts"
+      }
+    ]
+  }]
 };
 
+function getCards(gameState) {
+  let cards = gameState.community_cards.concat(gameState.players[gameState.in_action].hole_cards);
+  cards.forEach(card => card.rank = getCardValue(card));
+  console.log(cards);
+  return cards;
+}
+
+function getCardValue(card) {
+  const values = {"J": 11, "Q": 12, "K": 13, "A": 14};
+  if (isNaN(card.rank)) {
+    return values[card.rank]
+  } else {
+    return parseInt(card.rank);
+  }
+}
 
 function sortCards(cards) {
   return cards.sort(function (first, second) {
@@ -33,9 +53,9 @@ function sortCards(cards) {
   });
 }
 
-function getCards(gameState) {
+/*function getCards(gameState) {
   return gameState.community_cards;
-}
+}*/
 
 function straight(cards) {
   let straight = {
@@ -111,6 +131,6 @@ cards = sortCards(cards);
 let result = straight(cards);
 
 console.log(result);
-if (hasFullHouse(cards)) {
+if (howManyOfAKind(cards) === 4) {
   console.log("There is a straight in the cards")
 }
